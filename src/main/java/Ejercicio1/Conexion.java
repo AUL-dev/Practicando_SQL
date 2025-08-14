@@ -1,25 +1,20 @@
-package org.example;
+package Ejercicio1;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexionBBDD {
-
+public class Conexion {
     public static Connection abrirConexion() {
         String url = "jdbc:mysql://localhost:3306/world";
-        String usuario = "root";  // Tu usuario de MySQL
-        String passwd = "admin";  // Tu contraseña de MySQL
+        String usuario = "root";
+        String passwd = "admin";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url, usuario, passwd);
-            System.out.println("Conexión exitosa a la base de datos MySQL.");
-
-            // Aquí puedes hacer tus operaciones con la base de datos...
-
-            //conn.close();  // Cerramos la conexión al final
+            System.out.println("Conexión exitosa a la base de datos.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return conn;
     }
@@ -31,5 +26,4 @@ public class ConexionBBDD {
             throw new RuntimeException(e);
         }
     }
-
 }

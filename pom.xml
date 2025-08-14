@@ -20,7 +20,7 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>9.4.0</version>
         </dependency>
-        <!-- Lombok -->
+        <!-- Lombok, para obtener los getters, setters... -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
