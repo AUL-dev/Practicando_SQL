@@ -56,8 +56,8 @@ public class Main {
             //LECTURA DE UN ANIMAL
             if (opcionNumero == 2) {
                 System.out.println("Escriba el número de ID del animal: ");
-                int opcionId = scanner.nextInt();
-                ConsultaBBDD.consultarAnimal(conn, opcionId);
+                int idAnimal = scanner.nextInt();
+                ConsultaBBDD.consultarAnimal(conn, idAnimal);
             }
 
             //LECTURA DE TODOS LOS ANIMALES
