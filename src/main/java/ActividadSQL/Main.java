@@ -17,6 +17,8 @@ public class Main {
             System.out.println("3.-Eliminar a un alumno.");
             System.out.println("4.-Modificar los datos alumno.");
             System.out.println("5.-Ver a todos los alumnos.");
+            System.out.println("6.-Ver los datos de los alumnos cuya nota sea superior o igual a la introducida.");
+            System.out.println("7.- Salir del programa.");
             System.out.println("¿Qué desea hacer?");
 
             String opcion = scanner.nextLine();
@@ -34,6 +36,7 @@ public class Main {
                 String curso = scanner.nextLine();
                 System.out.println("Escriba la nota final del alumno: ");
                 float notaFinal = scanner.nextFloat();
+                scanner.nextLine();
                 System.out.println("Escriba las observaciones del alumno: ");
                 String observaciones = scanner.nextLine();
                 ConsultaBBDD.crearAlumno(conexion, nombre, apellidos, curso, notaFinal, observaciones);
@@ -46,10 +49,11 @@ public class Main {
                 ConsultaBBDD.verAlumno(conexion, idAlumno);
             }
 
-            //VER ALUMNO Y DESPUÉS ELIMINAR
+            //ELIMINAR ALUMNO
             if (opcionNumero == 3) {
                 System.out.println("Escriba el id del alumno: ");
                 int idAlumno = scanner.nextInt();
+                scanner.nextLine();
                 ConsultaBBDD.verAlumno(conexion, idAlumno);
                 System.out.println("¿Desea eliminar al alumno?");
                 System.out.println("1.- Sí");
@@ -61,10 +65,11 @@ public class Main {
                 }
             }
 
-            //VER ALUMNO Y DESPUÉS MODIFICAR
+            //MODIFICAR ALUMNO
             if (opcionNumero == 4) {
                 System.out.println("Escriba el id del alumno: ");
                 int idAlumno = scanner.nextInt();
+                scanner.nextLine();
                 ConsultaBBDD.verAlumno(conexion, idAlumno);
 
                 System.out.println("Escriba el nombre del alumno: ");
@@ -75,6 +80,7 @@ public class Main {
                 String curso = scanner.nextLine();
                 System.out.println("Escriba la nota final del alumno: ");
                 float notaFinal = scanner.nextFloat();
+                scanner.nextLine();
                 System.out.println("Escriba las observaciones del alumno: ");
                 String observaciones = scanner.nextLine();
                 ConsultaBBDD.modificarAlumno(conexion, idAlumno, nombre, apellidos, curso, notaFinal, observaciones);
@@ -96,6 +102,22 @@ public class Main {
             }
 
 
+            //SALIR DEL PROGRAMA
+            if (opcionNumero == 7) {
+                System.out.println("¿Está seguro de que desea salir?");
+                System.out.println("1.- Sí");
+                System.out.println("2.- No");
+                String opcion2 = scanner.nextLine();
+                int opcionSalir = Integer.parseInt(opcion2);
+                if (opcionSalir == 1) {
+                    exit = true;
+                }
+
+                //ESCOGER UNA OPCIÓN EXISTENTE
+                if (opcionNumero < 1 || opcionNumero > 7) {
+                    System.err.println("Escriba una opción correcta.");
+                }
+            }
         } while (!exit);
     }
 }

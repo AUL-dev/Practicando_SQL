@@ -1,6 +1,5 @@
 package ActividadSQL;
 
-import com.sun.jdi.ClassNotPreparedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,12 +26,13 @@ public class ConsultaBBDD {
         try {
             String sql = "SELECT * FROM ALUMNOS WHERE ID_ALUMNO = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setInt(1, idAlumno);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String nombre = resultSet.getString("Nombre");
                 String apellidos = resultSet.getString("Apellidos");
                 String curso = resultSet.getString("Curso");
-                float notaFinal = resultSet.getFloat("Nota_Final");
+                float notaFinal = resultSet.getFloat("Nota_final");
                 String observaciones = resultSet.getString("Observaciones");
                 EntityAlumno alumno = new EntityAlumno(nombre, apellidos, curso, notaFinal, observaciones);
                 System.out.println("Nombre: " + alumno.getNombre());
@@ -51,6 +51,7 @@ public class ConsultaBBDD {
         try {
             String sql = "DELETE FROM ALUMNOS WHERE ID_ALUMNO = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setInt(1, idAlumno);
             preparedStatement.executeUpdate();
             System.out.println("Alumno eliminado.");
         } catch (SQLException e) {
@@ -68,6 +69,7 @@ public class ConsultaBBDD {
             preparedStatement.setString(3, curso);
             preparedStatement.setFloat(4, notaFinal);
             preparedStatement.setString(5, observaciones);
+            preparedStatement.setInt(6,idAlumno);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -84,7 +86,7 @@ public class ConsultaBBDD {
                 String nombre = resultSet.getString("Nombre");
                 String apellidos = resultSet.getString("Apellidos");
                 String curso = resultSet.getString("Curso");
-                float notaFinal = resultSet.getFloat("Nota final");
+                float notaFinal = resultSet.getFloat("Nota_final");
                 String observaciones = resultSet.getString("Observaciones");
                 EntityAlumno alumno = new EntityAlumno(nombre, apellidos, curso, notaFinal, observaciones);
                 System.out.println("Nombre: " + alumno.getNombre());
@@ -103,12 +105,13 @@ public class ConsultaBBDD {
         try {
             String sql = "SELECT * FROM ALUMNOS WHERE NOTA_FINAL >= ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setFloat(1,nota);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 String nombre = resultSet.getString("Nombre");
                 String apellidos = resultSet.getString("Apellidos");
                 String curso = resultSet.getString("Curso");
-                float notaFinal = resultSet.getFloat("Nota final");
+                float notaFinal = resultSet.getFloat("Nota_final");
                 String observaciones = resultSet.getString("Observaciones");
                 EntityAlumno alumno = new EntityAlumno(nombre, apellidos, curso, notaFinal, observaciones);
                 System.out.println("Nombre: " + alumno.getNombre());
@@ -122,7 +125,6 @@ public class ConsultaBBDD {
             throw new RuntimeException(e);
         }
     }
-
 
 
 }
