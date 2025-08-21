@@ -1,9 +1,6 @@
 package Ejercicio2;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ConsultaBBDD {
 
@@ -63,7 +60,8 @@ public class ConsultaBBDD {
             String sql = "DELETE FROM ZOO.ANIMALES WHERE Id_Animal = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+            int i = preparedStatement.executeUpdate();
+            System.out.println("Se han borrado " + i + " registros.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -78,7 +76,10 @@ public class ConsultaBBDD {
             preparedStatement.setString(3, genero);
             preparedStatement.setString(4, especie);
             preparedStatement.setString(5, ubicacion);
-            preparedStatement.executeUpdate();
+            int nRows = preparedStatement.executeUpdate();
+            if (nRows >= 1) {
+                System.out.println("Se ha insertado correctamente el animal: "+ nombre);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -95,7 +96,8 @@ public class ConsultaBBDD {
             preparedStatement.setString(4, especie);
             preparedStatement.setString(5, ubicacion);
             preparedStatement.setInt(6, id);
-            preparedStatement.executeUpdate();
+            int i = preparedStatement.executeUpdate();
+            System.out.println("Se han actualizado "+i+" registros.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

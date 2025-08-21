@@ -1,11 +1,14 @@
 package Ejercicio2;
 
+import com.mysql.cj.exceptions.ClosedOnExpiredPasswordException;
+
 import java.sql.Connection;
 import java.util.Scanner;
 
 public class Main {
+    private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // CRUD (ANIMAL)
         // C - Create.
         // R - Read.
@@ -30,90 +33,112 @@ public class Main {
             String opcion = scanner.nextLine();
             int opcionNumero = Integer.parseInt(opcion);
 
-            //METODOS
-            //******************
-
-            //CREAR ANIMAL
-            if (opcionNumero == 1) {
-                System.out.println("Escriba el nombre del animal: ");
-                String nombre = scanner.nextLine();
-
-                System.out.println("Escriba la edad del animal: ");
-                int edad = scanner.nextInt();
-                scanner.nextLine();
-                System.out.println("Escriba el genero del animal: ");
-                String genero = scanner.nextLine();
-
-                System.out.println("Escriba la especie del animal: ");
-                String especie = scanner.nextLine();
-
-                System.out.println("Escriba la ubicación del animal: ");
-                String ubicacion = scanner.nextLine();
-
-                ConsultaBBDD.crearAnimal(conn, nombre, edad, genero, especie, ubicacion);
+            switch (opcionNumero) {
+                case 1:
+                    crearAnimal(conn);
+                    break;
+                case 2:
+                    lecturaAnimal(conn);
+                    break;
+                case 3:
+                    mostrarAnimales(conn);
+                    break;
+                case 4:
+                    actualizarAnimal(conn);
+                    break;
+                case 5:
+                    borrarAnimal(conn);
+                    break;
+                case 6:
+                    if (salirPrograma(conn))  {
+                        exit = true;
+                    }
+                    break;
+                default:
+                    throw new Exception("Escriba una opción correcta.");
             }
 
-            //LECTURA DE UN ANIMAL
-            if (opcionNumero == 2) {
-                System.out.println("Escriba el número de ID del animal: ");
-                int idAnimal = scanner.nextInt();
-                ConsultaBBDD.consultarAnimal(conn, idAnimal);
-            }
-
-            //LECTURA DE TODOS LOS ANIMALES
-            if (opcionNumero == 3) {
-                ConsultaBBDD.leerAnimales(conn);
-            }
-
-            //ACTUALIZAR ANIMAL
-            if (opcionNumero == 4) {
-
-                System.out.println("Escriba el número de ID del animal: ");
-                int id = scanner.nextInt();
-                scanner.nextLine();
-
-                System.out.println("Escriba el nombre del animal: ");
-                String nombre = scanner.nextLine();
-
-                System.out.println("Escriba la edad del animal: ");
-                int edad = scanner.nextInt();
-                scanner.nextLine();
-
-                System.out.println("Escriba el genero del animal: ");
-                String genero = scanner.nextLine();
-
-                System.out.println("Escriba la especie del animal: ");
-                String especie = scanner.nextLine();
-
-                System.out.println("Escriba la ubicación del animal: ");
-                String ubicacion = scanner.nextLine();
-
-                ConsultaBBDD.actualizarAnimal(conn, id, nombre, edad, genero, especie, ubicacion);
-            }
-
-            //BORRAR UN ANIMAL
-            if (opcionNumero == 5) {
-                System.out.println("Escriba el número de ID del animal: ");
-                int opcionId = scanner.nextInt();
-                ConsultaBBDD.borrarAnimal(conn, opcionId);
-            }
-
-            //SALIR DEL PROGRAMA
-            if (opcionNumero == 6) {
-                System.out.println("¿Está seguro de que desea salir?");
-                System.out.println("1.- Sí");
-                System.out.println("2.- No");
-                String opcion2 = scanner.nextLine();
-                int opcionSalir = Integer.parseInt(opcion2);
-                if (opcionSalir == 1) {
-                    exit = true;
-                }
-            }
-            if (opcionNumero < 1 || opcionNumero > 6) {
-                System.err.println("Escriba una opción correcta.");
-            }
         } while (!exit);
-
-        ConexionZoo.cerrarConexion(conn);
     }
+
+    public static void crearAnimal(Connection conn) {
+
+        System.out.println("Escriba el nombre del animal: ");
+        String nombre = scanner.nextLine();
+
+        System.out.println("Escriba la edad del animal: ");
+        int edad = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Escriba el genero del animal: ");
+        String genero = scanner.nextLine();
+
+        System.out.println("Escriba la especie del animal: ");
+        String especie = scanner.nextLine();
+
+        System.out.println("Escriba la ubicación del animal: ");
+        String ubicacion = scanner.nextLine();
+
+        ConsultaBBDD.crearAnimal(conn, nombre, edad, genero, especie, ubicacion);
+    }
+
+    public static void lecturaAnimal(Connection conn) {
+
+        System.out.println("Escriba el número de ID del animal: ");
+        int idAnimal = scanner.nextInt();
+        ConsultaBBDD.consultarAnimal(conn, idAnimal);
+    }
+
+    public static void mostrarAnimales(Connection conn) {
+
+        ConsultaBBDD.leerAnimales(conn);
+
+    }
+
+    public static void actualizarAnimal(Connection conn) {
+        System.out.println("Escriba el número de ID del animal: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Escriba el nombre del animal: ");
+        String nombre = scanner.nextLine();
+
+        System.out.println("Escriba la edad del animal: ");
+        int edad = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("Escriba el genero del animal: ");
+        String genero = scanner.nextLine();
+
+        System.out.println("Escriba la especie del animal: ");
+        String especie = scanner.nextLine();
+
+        System.out.println("Escriba la ubicación del animal: ");
+        String ubicacion = scanner.nextLine();
+
+        ConsultaBBDD.actualizarAnimal(conn, id, nombre, edad, genero, especie, ubicacion);
+
+    }
+
+    public static void borrarAnimal(Connection conn) {
+        System.out.println("Escriba el número de ID del animal: ");
+        int opcionId = scanner.nextInt();
+        ConsultaBBDD.borrarAnimal(conn, opcionId);
+
+    }
+
+    public static boolean salirPrograma(Connection conn) {
+
+        System.out.println("¿Está seguro de que desea salir?");
+        System.out.println("1.- Sí");
+        System.out.println("2.- No");
+        String opcion2 = scanner.nextLine();
+        int opcionSalir = Integer.parseInt(opcion2);
+        if (opcionSalir == 1) {
+            ConexionZoo.cerrarConexion(conn);
+            return true;
+        }
+        return false;
+    }
+
+
 }
