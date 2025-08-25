@@ -1,8 +1,5 @@
 package ActividadSQL2;
 
-
-import ActividadSQL.EntityAlumno;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +15,10 @@ public class ConsultaBBDD {
             preparedStatement.setString(3, departamento);
             preparedStatement.setFloat(4, sueldo);
             preparedStatement.setString(5, diaLibre);
-            preparedStatement.executeUpdate();
+            int nRows = preparedStatement.executeUpdate();
+            if (nRows >= 1) {
+                System.out.println("Empleado creado.");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -30,8 +30,8 @@ public class ConsultaBBDD {
             String sql = "DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = ?";
             PreparedStatement preparedStatement = conexion.prepareStatement(sql);
             preparedStatement.setInt(1, idEmpleado);
-            preparedStatement.executeUpdate();
-            System.out.println("Empleado eliminado.");
+            int registros = preparedStatement.executeUpdate();
+            System.out.println("Se han eliminado " + registros + " registros.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -93,31 +93,64 @@ public class ConsultaBBDD {
         try {
             String seleccionarDiaLibre = "SELECT DIA_LIBRE FROM EMPLEADOS WHERE ID_EMPLEADO = ?";
             String modificarDia = "UPDATE EMPLEADOS SET DIA_LIBRE = ? WHERE ID_EMPLEADO = ?";
+
             PreparedStatement preparedStatement = conexion.prepareStatement(seleccionarDiaLibre);
             preparedStatement.setInt(1, idEmpleado1);
             ResultSet resultSet = preparedStatement.executeQuery();
-            String diaLibre1 = resultSet.getString("Dia_Libre");
+            String diaLibre = null;
+            if (resultSet.next()) {
+                diaLibre = resultSet.getString("Dia_Libre");
+            } else {
+                throw new SQLException("Empleado con ID " + idEmpleado1 + " no encontrado.");
+            }
 
-            PreparedStatement preparedStatement2 = conexion.prepareStatement(seleccionarDiaLibre);
-            preparedStatement2.setInt(1, idEmpleado2);
-            ResultSet resultSet2 = preparedStatement2.executeQuery();
-            String diaLibre2 = resultSet2.getString("Dia_Libre");
+            preparedStatement.setInt(1, idEmpleado2);
+            ResultSet resultSet2 = preparedStatement.executeQuery();
+            String diaLibre2 = null;
+            if (resultSet2.next()) {
+                diaLibre2 = resultSet2.getString("Dia_Libre");
+            } else {
+                throw new SQLException("Empleado con ID " + idEmpleado2 + " no encontrado.");
+            }
 
-            PreparedStatement modificar1 = conexion.prepareStatement(modificarDia);
-            modificar1.setString(1, diaLibre2);
-            modificar1.setInt(2,idEmpleado1);
-            ResultSet diaModificado = modificar1.executeQuery();
+            PreparedStatement modificar = conexion.prepareStatement(modificarDia);
+            modificar.setString(1, diaLibre2);
+            modificar.setInt(2, idEmpleado1);
+            modificar.executeUpdate();
 
 
-            PreparedStatement modificar2 = conexion.prepareStatement(modificarDia);
-            modificar2.setString(1,diaLibre1);
-            modificar2.setInt(2,idEmpleado2);
-            diaModificado = modificar2.executeQuery();
+            modificar.setString(1, diaLibre);
+            modificar.setInt(2, idEmpleado2);
+            modificar.executeUpdate();
+
+            preparedStatement.close();
+            resultSet.close();
+            resultSet2.close();
+            modificar.close();
+
+            System.out.println("Intercambio realizado con éxito.");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
+
+    public static void actualizarEmpleado(Connection conexion, int idEmpleado, String nombre, String apellidos, String departamento, float sueldo, String diaLibre) {
+        try {
+            String sql = "UPDATE EMPLEADOS SET NOMBRE = ?, APELLIDOS = ?, DEPARTAMENTO = ?, SUELDO = ?, DIA_LIBRE = ? WHERE ID_EMPLEADO = ?";
+            PreparedStatement preparedStatement = conexion.prepareStatement(sql);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, apellidos);
+            preparedStatement.setString(3, departamento);
+            preparedStatement.setFloat(4, sueldo);
+            preparedStatement.setString(5, diaLibre);
+            preparedStatement.setInt(6, idEmpleado);
+            int i = preparedStatement.executeUpdate();
+            System.out.println("Se han actualizado " + i + " registros.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
+
