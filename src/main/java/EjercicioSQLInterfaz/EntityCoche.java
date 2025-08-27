@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Coche {
+public class EntityCoche {
     private String matricula;
     private String marca;
     private String modelo;
