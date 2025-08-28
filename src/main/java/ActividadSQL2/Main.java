@@ -1,6 +1,5 @@
 package ActividadSQL2;
 
-
 import java.sql.Connection;
 import java.util.Scanner;
 

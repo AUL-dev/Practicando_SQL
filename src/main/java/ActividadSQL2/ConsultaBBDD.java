@@ -50,7 +50,8 @@ public class ConsultaBBDD {
                 String departamento = resultSet.getString("Departamento");
                 float sueldo = resultSet.getFloat("Sueldo");
                 String diaLIbre = resultSet.getString("Dia_Libre");
-                EntityEmpleado empleado = new EntityEmpleado(nombre, apellidos, departamento, sueldo, diaLIbre);
+                EntityEmpleado empleado = new EntityEmpleado(idEmpleado,nombre, apellidos, departamento, sueldo, diaLIbre);
+                System.out.println("Id empleado: " + empleado.getIdEmpleado());
                 System.out.println("Nombre: " + empleado.getNombre());
                 System.out.println("Apellidos: " + empleado.getApellidos());
                 System.out.println("Departamento: " + empleado.getDepartamento());
@@ -71,17 +72,19 @@ public class ConsultaBBDD {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
+                int idEmpleado = resultSet.getInt("ID_EMPLEADO");
                 String nombre = resultSet.getString("Nombre");
                 String apellidos = resultSet.getString("Apellidos");
                 String departamento = resultSet.getString("Departamento");
                 float sueldo = resultSet.getFloat("Sueldo");
                 String diaLibre = resultSet.getString("Dia_Libre");
-                EntityEmpleado empleado = new EntityEmpleado(nombre, apellidos, departamento, sueldo, diaLibre);
+                EntityEmpleado empleado = new EntityEmpleado(idEmpleado,nombre, apellidos, departamento, sueldo, diaLibre);
+                System.out.println("Id empleado: " + empleado.getIdEmpleado());
                 System.out.println("Nombre: " + empleado.getNombre());
                 System.out.println("Apellidos: " + empleado.getApellidos());
                 System.out.println("Curso: " + empleado.getDepartamento());
                 System.out.println("Nota final: " + empleado.getSueldo());
-                System.out.println("Observaciones: " + empleado.getDiaLibre());
+                System.out.println("Día libre: " + empleado.getDiaLibre());
                 System.out.println("************************");
             }
         } catch (SQLException e) {

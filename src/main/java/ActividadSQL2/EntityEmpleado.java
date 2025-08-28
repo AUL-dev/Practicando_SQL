@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class EntityEmpleado {
-
+    private int idEmpleado;
     private String nombre;
     private String apellidos;
     private String departamento;
